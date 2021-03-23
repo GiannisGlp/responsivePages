@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "../../axios";
-import { Redirect } from "react-router-dom";
 
 import styles from "./NewPage.module.css";
 
@@ -21,21 +20,15 @@ class NewPage extends Component {
       publishedOn: new Date(),
     };
     axios.post("/ResponsivePages/", data).then((response) => {
-      console.log(response);
-      this.props.history.replace("/ResponsivePages/");
-      this.setState({ submitted: true });
       alert("New Page Has Created Succesfully");
+      this.setState({ submitted: true });
+      this.props.history.replace("/ResponsivePages/");
     });
   };
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
-      redirect = <Redirect to="/ResponsivePages" />;
-    }
     return (
       <div className={styles.NewPage}>
-        {redirect}
         <h1>Create New Page</h1>
         <label>Title</label>
         <input

@@ -52,16 +52,12 @@ class Main extends Component {
             </ul>
           </nav>
         </header>
-        {/* <Route path="/" exact render={() => <h1>Home</h1>} />
-                <Route path="/" render={() => <h1>Home 2</h1>} /> */}
         <Switch>
           {this.state.auth ? (
             <Route path="/new-page" component={AsyncNewPage} />
           ) : null}
           <Route path="/ResponsivePages" component={AllPages} />
           <Route path="/" component={AllPages} />
-          {/* <Redirect from="/" to="/posts" /> */}
-          {/* <Route path="/" component={Posts} /> */}
         </Switch>
       </div>
     );

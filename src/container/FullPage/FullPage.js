@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import axios from "../../axios";
 
 import styles from "./FullPage.module.css";
@@ -33,7 +32,6 @@ class FullPage extends Component {
         axios
           .get("/ResponsivePages/" + this.props.match.params.id)
           .then((response) => {
-            console.log(response.data);
             this.setState({ loadedPage: response.data });
           });
       }
@@ -44,8 +42,8 @@ class FullPage extends Component {
     axios
       .delete("/ResponsivePages/" + this.props.match.params.id)
       .then((response) => {
-        this.setState({ deleted: true });
         alert(" Page Has Been Deleted Succesfully");
+        this.setState({ deleted: true });
         this.props.history.replace("/ResponsivePages/");
       });
   };
@@ -62,8 +60,9 @@ class FullPage extends Component {
     axios
       .put("/ResponsivePages/" + this.props.match.params.id, data)
       .then((response) => {
-        this.setState({ updated: true });
         alert(" Page Has Been Updated Succesfully");
+        this.setState({ updated: true });
+        this.props.history.replace("/ResponsivePages/");
       });
   };
   updatePageNameHandler = () => {
@@ -78,8 +77,9 @@ class FullPage extends Component {
     axios
       .put("/ResponsivePages/" + this.props.match.params.id, data)
       .then((response) => {
+        alert("Page Name Has Been Updated Succesfully");
         this.setState({ updated: true });
-        alert(" Page Has Been Updated Succesfully");
+        this.props.history.replace("/ResponsivePages/");
       });
   };
   updatePageDescHandler = () => {
@@ -94,8 +94,9 @@ class FullPage extends Component {
     axios
       .put("/ResponsivePages/" + this.props.match.params.id, data)
       .then((response) => {
+        alert("Page Description Has Been Updated Succesfully");
         this.setState({ updated: true });
-        alert(" Page Has Been Updated Succesfully");
+        this.props.history.replace("/ResponsivePages/");
       });
   };
   updatePageTypeHandler = () => {
@@ -110,8 +111,9 @@ class FullPage extends Component {
     axios
       .put("/ResponsivePages/" + this.props.match.params.id, data)
       .then((response) => {
+        alert("Page Type Has Been Updated Succesfully");
         this.setState({ updated: true });
-        alert(" Page Has Been Updated Succesfully");
+        this.props.history.replace("/ResponsivePages/");
       });
   };
   updatePageActiveHandler = () => {
@@ -119,27 +121,20 @@ class FullPage extends Component {
       title: this.state.loadedPage.title,
       description: this.state.loadedPage.description,
       type: this.state.loadedPage.type,
-      isActive: this.state.loadedPage.isActive,
+      isActive: this.state.isActive,
       publishedOn: new Date(),
       id: this.props.match.params.id,
     };
     axios
       .put("/ResponsivePages/" + this.props.match.params.id, data)
       .then((response) => {
+        alert("Page Activity Has Been Updated Succesfully");
         this.setState({ updated: true });
-        alert(" Page Has Been Updated Succesfully");
+        this.props.history.replace("/ResponsivePages/");
       });
   };
 
   render() {
-    let redirect = null;
-    if (this.state.deleted) {
-      redirect = <Redirect to="/ResponsivePages/" />;
-      this.setState({});
-    }
-    if (this.state.updated) {
-      redirect = <Redirect to="/ResponsivePages/" />;
-    }
     let page = <p style={{ textAlign: "center" }}>Please select a Page!</p>;
     if (this.props.match.params.id) {
       page = <p style={{ textAlign: "center" }}>Loading...!</p>;
@@ -174,8 +169,6 @@ class FullPage extends Component {
       }
       page = (
         <div className={styles.FullPage}>
-          {redirect}
-
           <section>
             <h1> Page Name: {this.state.loadedPage.title}</h1>
             <input
@@ -190,7 +183,6 @@ class FullPage extends Component {
               UpdateName
             </button>
           </section>
-
           <section>
             <label>Description</label>
             <p>{this.state.loadedPage.description}</p>
@@ -208,7 +200,6 @@ class FullPage extends Component {
               UpdateDesc
             </button>
           </section>
-
           <section>
             <label>Type Of The Page</label>
             {type}
@@ -227,7 +218,6 @@ class FullPage extends Component {
               UpdateType
             </button>
           </section>
-
           <section>
             <label>Active</label>
             {active}
@@ -241,13 +231,12 @@ class FullPage extends Component {
               <option value={true}>Active</option>
             </select>
             <button
-              onClick={this.updatePageNameHandler}
+              onClick={this.updatePageActiveHandler}
               className={styles.Update}
             >
               UpdateActiveStatus
             </button>
           </section>
-
           <label>PublishedOn</label>
           <p>{this.state.loadedPage.publishedOn}</p>
           <label>Page ID</label>
